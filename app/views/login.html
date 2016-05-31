@@ -1,0 +1,11 @@
+<h1>Login</h1>
+<div class="well">
+		<form class="form-signin" role="form" ng-submit="vm.entrar()" >
+	        <input type="email" class="form-control" placeholder="Email" ng-model="user.email"  required="" autofocus="">
+	        <br>
+	        <input type="password" class="form-control" placeholder="Password" ng-model="user.password" required="">
+			<br>
+			<input type="submit" class="btn btn-success" value="Entrar" />
+			<a class="btn btn-default" ng-href="#/registro">Registrarse</a>
+	  </form>
+</div>
