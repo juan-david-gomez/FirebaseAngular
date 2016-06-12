@@ -7,21 +7,26 @@
  * # RegistroCtrl
  * Controller of the firebaseAngularApp
  */
-angular.module('firebaseAngularApp')
-  .controller('RegistroCtrl', function ($scope,auth,$state) {
+app
+  .controller('RegistroCtrl', function ($scope,auth,$state,usuarios) {
 
   	var vm = this;
 
     vm.registrar = function() {
-    		console.log($scope.user);
     	if ($scope.user) {
   		 	var promise = auth.singIn($scope.user);
   		 	promise.then(function  (data) {
   		 		console.log(data);
-  		 		$state.go('home');
+  		 		var userInfo = {
+  		 			nombre : $scope.user.nombre,
+  		 		};
+  		 		usuarios.registerUser(data.uid,userInfo);
+  		 		
+  		 		$state.go('app.home');
   		 	}).catch(function(error) {
+  		 	  //TODO: caprturar el error y mostrarlo al usuario 
 			  console.log(error);
 			});
-    	};
+    	}
     };
   });

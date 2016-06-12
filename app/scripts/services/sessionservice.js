@@ -8,8 +8,9 @@
  * Service in the firebaseAngularApp.
  */
 function sessionService($log, localStorage){
-
+	/*jshint validthis: true */
     this._authData = JSON.parse(localStorage.getItem('session.authData'));
+    this._userInfo = JSON.parse(localStorage.getItem('session.userInfo'));
 
     this.getAuthData = function(){
       return this._authData;
@@ -28,11 +29,21 @@ function sessionService($log, localStorage){
       return null;
     };
 
-    /**
-     * Destroy session
-     */
-    this.destroy = function destroy(){
+    this.destroy = function(){
       this.setAuthData(null);
+    };
+
+
+
+    this.getUserInfo = function(){
+      return this._userInfo;
+    };
+
+    this.setUserInfo = function(userInfo){
+      this._userInfo = userInfo;
+      // console.log(userInfo);
+      localStorage.setItem('session.userInfo', JSON.stringify(userInfo));
+      return this;
     };
 
 }
@@ -41,5 +52,5 @@ function sessionService($log, localStorage){
   // Inject dependencies
 sessionService.$inject = ['$log', 'localStorage'];
 
-angular.module('firebaseAngularApp')
+app
   .service('session', sessionService);

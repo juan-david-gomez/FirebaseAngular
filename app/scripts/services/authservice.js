@@ -7,9 +7,9 @@
  * # AuthService
  * Service in the firebaseAngularApp.
  */
-  function AuthService($q, $firebaseAuth, session){
+  function AuthService($q, $firebaseAuth, session, FIREBASE,usuarios){
 
-    var ref = new Firebase('https://testauthjuan.firebaseio.com/');
+    var ref = new Firebase(FIREBASE);
     var authObj = $firebaseAuth(ref);
 
     this.isLoggedIn = function(){
@@ -17,14 +17,19 @@
     };
 
     this.logIn = function(user){
-      return authObj
-        .$authWithPassword({
-		    email: user.email,
-		    password: user.password
-		  })
+      return authObj.$authWithPassword({
+  		    email: user.email,
+  		    password: user.password
+  		  })
         .then(
           function(authData){
             session.setAuthData(authData);
+
+          	var userInfo = usuarios.getUserInfo(authData.uid);
+            userInfo.then(function  (data) {
+              session.setUserInfo(data);
+            });
+
             return $q.resolve(authData);
           },
           function(error){
@@ -44,11 +49,9 @@
     	return authObj.$createUser({
 			  email: user.email,
 			  password: user.password
-		}).then(function(userData) {
-			  console.log("User " + userData.uid + " created successfully!");
-			  return self.logIn(user);
 		}).then(function(authData) {
-			  console.log("Logged in as:", authData.uid);
+			  console.log('Logged in as:', authData.uid);
+			  return self.logIn(user);
 		}).catch(function(error) {
 			  return $q.reject(error);
 		});
@@ -56,8 +59,8 @@
 
   }
 
-  	// Inject dependencies
-  	AuthService.$inject = ['$q', '$firebaseAuth', 'session'];
+  // Inject dependencies
+  AuthService.$inject = ['$q', '$firebaseAuth', 'session','FIREBASE','usuarios'];
   
-	angular.module('firebaseAngularApp')
+app
   .service('auth', AuthService);

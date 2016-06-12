@@ -9,7 +9,8 @@
  *
  * Main module of the application.
  */
-angular
+ /*global app: true*/
+var app = angular
   .module('firebaseAngularApp', [
     'ngAnimate',
     'ngCookies',
@@ -19,44 +20,103 @@ angular
     'ngTouch',
     'ui.router',
     'firebase',
-  ])
+    'ui.bootstrap'
+  ]);
+  app.constant('FIREBASE','https://testauthjuan.firebaseio.com/')
   .config(function ($stateProvider, $urlRouterProvider) {
-
    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'vm',
-        params: {
-          'requireLogin': true, 
+      //Estados y rutas - App seccion  
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        views: {
+            'header': {
+              templateUrl: 'views/layouts/header.html',
+              controller: 'HeaderCtrl',
+              controllerAs: 'vm'
+            },
+            'footer':{
+              templateUrl: 'views/layouts/footer.html',
+              // controller: 'FooterCtrl'
+            },
+        },
+        params :{
+          'menus':{
+            'app.home':{
+              'name' : 'Calendario',
+              'href' : '#/app/',
+            },
+            'app.clientes':{
+              'name' : 'Clientes',
+              'href' : '#/app/clientes',
+            }
+          },
+        }
+      })
+      
+      .state('app.home', {
+          url: '/',
+          views: {
+            '@': {
+              templateUrl: 'views/main.html',
+              controller: 'MainCtrl',
+              controllerAs: 'vm'
+            }
+          },
+          params: {
+            'requireLogin': true, 
+          },
+      })
+
+      //Estados y rutas - Root seccion  
+      .state('root', {
+        url: '',
+        abstract: true,
+        views: {
+            'header': {
+              templateUrl: 'views/layouts/header.html',
+              // controller: 'HeaderCtrl'
+            },
+            'footer':{
+              templateUrl: 'views/layouts/footer.html',
+              // controller: 'FooterCtrl'
+            },
         },
       })
-      .state('login', {
+
+      .state('root.login', {
         url: '/login',
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
+        views: {
+          '@': {
+            templateUrl: 'views/login.html',
+            controller: 'LoginCtrl',
+            controllerAs: 'vm'
+          }
+        },
         params: {
           'requireLogin': false,
         }, 
-        controllerAs: 'vm'
       })
-      .state('registro', {
+      .state('root.registro', {
         url : '/registro',
-        templateUrl: 'views/registro.html',
-        controller: 'RegistroCtrl',
+        views: {
+          '@': {
+            templateUrl: 'views/registro.html',
+            controller: 'RegistroCtrl',
+            controllerAs: 'vm'
+          }
+        },
         params: {
           'requireLogin': false, 
         },
-        controllerAs: 'vm'
       });
-    $urlRouterProvider.otherwise('/');
+
+    $urlRouterProvider.otherwise('/app/');
     
   }).run(function($rootScope, $location, $state, auth) {
 
 
-    $rootScope.$on('$stateChangeStart', function(e, toState  , toParams
-                                                   , fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams) {
       
         if(!toParams.requireLogin){
            return; // no need to redirect 
@@ -65,7 +125,7 @@ angular
         // now, redirect only not authenticated
         if(auth.isLoggedIn() === false) {
             e.preventDefault(); // stop current execution
-            $state.go('login'); // go to login
+            $state.go('root.login'); // go to login
         }
     });
 });

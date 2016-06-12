@@ -8,12 +8,9 @@
  * Controller of the firebaseAngularApp
  http://www.jvandemo.com/learn-how-to-make-authentication-in-your-angular-applications-simpler-and-more-consistent/
  */
-angular.module('firebaseAngularApp')
-  .controller('MainCtrl', function ($scope,auth,$state) {
+app
+  .controller('MainCtrl', function () {
 
-    $scope.salir = function() {
-	      auth.logOut();
-	      $state.go('login');
-	};
+    
 	
 });

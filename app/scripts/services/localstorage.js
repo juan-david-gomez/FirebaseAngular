@@ -12,6 +12,6 @@
   localStorageServiceFactory.$inject = ['$window'];
 
   // Export
-angular.module('firebaseAngularApp')
+app
     .factory('localStorage', localStorageServiceFactory);
 

@@ -7,7 +7,7 @@
  * # LoginCtrl
  * Controller of the firebaseAngularApp
  */
-angular.module('firebaseAngularApp')
+app
   .controller('LoginCtrl', function ($scope,auth,$state) {
 
   	var vm = this;
@@ -16,13 +16,12 @@ angular.module('firebaseAngularApp')
     		console.log($scope.user);
     	if ($scope.user) {
   		 	var promise = auth.logIn($scope.user);
-  		 	promise.then(function  (data) {
-  		 		console.log(data);
-  		 		$state.go('home');
+  		 	promise.then(function  () {
+  		 		$state.go('app.home');
   		 	}).catch(function(error) {
-			  	console.log(error);
+			  	console.error(error);
 			});
-    	};
+    	}
     };
 
   });
