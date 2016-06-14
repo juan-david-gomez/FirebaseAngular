@@ -16,7 +16,7 @@ app
     // Public API here
     return {
       registerUser: function (uid,userInfo) {
-        console.log(uid);
+        // console.log(uid);
         return ref.child(uid).set(userInfo);
         
       },
@@ -28,8 +28,7 @@ app
         return userInfo.$loaded()
               .then(function (arr) 
               {
-                console.log(arr);
-                console.log(arr.$getRecord(uid)); 
+                // console.log(arr.$getRecord(uid)); 
                 // delete userInfo["$$conf"];
                 return arr.$getRecord(uid);
               });

@@ -42,7 +42,6 @@ function sessionService($log, localStorage){
 
     this.setUserInfo = function(userInfo){
       this._userInfo = userInfo;
-      // console.log(userInfo);
       localStorage.setItem('session.userInfo', JSON.stringify(userInfo));
       return this;
     };

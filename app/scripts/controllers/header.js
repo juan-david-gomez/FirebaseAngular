@@ -22,10 +22,10 @@ app
   	$scope.menus = $stateParams.menus;
   	
     if (auth.isLoggedIn()) {
+
       $scope.isLoggedIn = auth.isLoggedIn(); 
       $scope.user = session.getUserInfo();
-      
-      vm.salir = function() {
+	   vm.salir = function() {
             auth.logOut();
             $state.go('root.login');
       };

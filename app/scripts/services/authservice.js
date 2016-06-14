@@ -26,11 +26,12 @@
             session.setAuthData(authData);
 
           	var userInfo = usuarios.getUserInfo(authData.uid);
-            userInfo.then(function  (data) {
+            
+            return userInfo.then(function  (data) {
               session.setUserInfo(data);
+              $q.resolve(authData);
             });
 
-            return $q.resolve(authData);
           },
           function(error){
             return $q.reject(error);
@@ -49,8 +50,7 @@
     	return authObj.$createUser({
 			  email: user.email,
 			  password: user.password
-		}).then(function(authData) {
-			  console.log('Logged in as:', authData.uid);
+		}).then(function() {
 			  return self.logIn(user);
 		}).catch(function(error) {
 			  return $q.reject(error);
