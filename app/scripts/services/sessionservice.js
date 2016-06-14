@@ -31,6 +31,7 @@ function sessionService($log, localStorage){
 
     this.destroy = function(){
       this.setAuthData(null);
+      this.setUserInfo(null);
     };
 
 
