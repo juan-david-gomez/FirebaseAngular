@@ -18,18 +18,19 @@
 
     this.logIn = function(user){
       return authObj.$authWithPassword({
-  		    email: user.email,
-  		    password: user.password
-  		  })
+          email: user.email,
+          password: user.password
+        })
         .then(
           function(authData){
             session.setAuthData(authData);
 
-          	var userInfo = usuarios.getUserInfo(authData.uid);
+            var userInfo = usuarios.getUserInfo(authData.uid);
             
             return userInfo.then(function  (data) {
               session.setUserInfo(data);
-              $q.resolve(authData);
+              // console.log($q);
+              return authData;
             });
 
           },

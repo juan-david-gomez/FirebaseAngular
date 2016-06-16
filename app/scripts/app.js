@@ -20,7 +20,8 @@ var app = angular
     'ngTouch',
     'ui.router',
     'firebase',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.calendar'
   ]);
   app.constant('FIREBASE','https://testauthjuan.firebaseio.com/')
   .config(function ($stateProvider, $urlRouterProvider) {
